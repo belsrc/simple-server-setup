@@ -1,0 +1,73 @@
+# Copied from https://github.com/h5bp/server-configs-nginx with some tweaks (location / section) here and there
+
+# Drop requests for unknown hosts
+#
+# If no default server is defined, nginx will use the first found server.
+# To prevent host header attacks, or other potential problems when an unknown
+# servername is used in a request, it's recommended to drop the request
+# returning 444 "no response".
+server {
+  listen 80 default_server;
+  return 444;
+}
+
+
+# Choose between www and non-www, listen on the wrong one and redirect to
+# the right one -- http://wiki.nginx.org/Pitfalls#Server_Name
+server {
+  # The ports to listen on
+  listen 80;
+  listen [::]:80;
+
+  # listen on the www host
+  server_name www.[example.com];
+
+  # and redirect to the non-www host (declared below)
+  return 301 $scheme://[example.com]$request_uri;
+}
+
+# Normal Node App
+server {
+    # The ports to listen on
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+
+    # Charset
+    charset utf-8;
+
+    # The host name to respond to
+    server_name [example.com];
+
+    # Prevent clients from accessing hidden files (starting with a dot)
+    location ~* /\.(?!well-known\/) {
+        deny all;
+    }
+
+    # Prevent clients from accessing backup/config/source files
+    location ~* (?:\.(?:bak|conf|dist|fla|in[ci]|log|psd|sh|sql|sw[op])|~)$ {
+        deny all;
+    }
+
+    # Pass the request to the node.js server with the correct headers
+    location / {
+        proxy_redirect off;
+        proxy_pass            http://127.0.0.1:3000;
+        proxy_http_version    1.1;
+        proxy_set_header      Upgrade $http_upgrade;
+        proxy_set_header      Connection 'upgrade';
+        proxy_set_header      Host $http_host;
+        proxy_set_header      X-Real-IP $remote_addr;
+        proxy_set_header      X-Forwarded-For  $proxy_add_x_forwarded_for;
+        proxy_set_header      X-Forwarded-Proto $scheme;
+        proxy_set_header      X-NginX-Proxy true;
+        proxy_cache_bypass    $http_upgrade;
+        proxy_cache_key       sfs$request_uri$scheme;
+        error_page 401 403 404 /404.html;
+    }
+
+    # Error log location [If you want them somewhere else]
+    # error_log  /var/log/nginx/error.log warn;
+
+    # Access log location [If you want them somewhere else]
+    # access_log /var/log/nginx/access.log main;
+}

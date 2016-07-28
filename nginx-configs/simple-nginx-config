@@ -1,0 +1,111 @@
+# Copied from https://github.com/h5bp/server-configs-nginx with some tweaks here and there
+
+# Drop requests for unknown hosts
+#
+# If no default server is defined, nginx will use the first found server.
+# To prevent host header attacks, or other potential problems when an unknown
+# servername is used in a request, it's recommended to drop the request
+# returning 444 "no response".
+server {
+  listen 80 default_server;
+  return 444;
+}
+
+
+# Choose between www and non-www, listen on the wrong one and redirect to
+# the right one -- http://wiki.nginx.org/Pitfalls#Server_Name
+server {
+  # The ports to listen on
+  listen 80;
+  listen [::]:80;
+
+  # listen on the www host
+  server_name www.[example.com];
+
+  # and redirect to the non-www host (declared below)
+  return 301 $scheme://[example.com]$request_uri;
+}
+
+
+server {
+  # The ports to listen on
+  listen 80;
+  listen [::]:80 ipv6only=on;
+
+  # The host name to respond to
+  server_name [example.com];
+
+  # Path for static files
+  root /var/www;
+
+  # Charset
+  charset utf-8;
+
+  # Prevent clients from accessing hidden files (starting with a dot)
+  location ~* /\.(?!well-known\/) {
+      deny all;
+  }
+
+  # Prevent clients from accessing backup/config/source files
+  location ~* (?:\.(?:bak|conf|dist|fla|in[ci]|log|psd|sh|sql|sw[op])|~)$ {
+      deny all;
+  }
+
+  # cache.appcache, your document html and data
+  location ~* \.(?:manifest|appcache|html?|xml|json)$ {
+    expires -1;
+    access_log /var/log/nginx/static.log;
+  }
+
+  # Media: images, icons, video, audio, HTC
+  location ~* \.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc)$ {
+    expires 1M;
+    access_log off;
+    add_header Cache-Control "public";
+  }
+
+  # CSS and Javascript
+  location ~* \.(?:css|js)$ {
+    expires 1M;
+    access_log off;
+    add_header Cache-Control "public";
+  }
+
+  # Try to retrieve the uri file or default to 404
+  location / {
+      try_files $uri $uri/ =404;
+  }
+
+  # Error pages
+  error_page 401 403 404 /404.html;
+
+  # Error log location [If you want them somewhere else]
+  # error_log  logs/nginx/error.log warn;
+
+  # Access log location [If you want them somewhere else]
+  # access_log logs/nginx/access.log main;
+
+  # Force the latest IE version
+  add_header "X-UA-Compatible" "IE=Edge";
+
+  # The X-Frame-Options header indicates whether a browser should be allowed
+  # to render a page within a frame or iframe.
+  add_header X-Frame-Options SAMEORIGIN;
+
+  # MIME type sniffing security protection
+  #	There are very few edge cases where you wouldn't want this enabled.
+  add_header X-Content-Type-Options nosniff;
+
+  # The X-XSS-Protection header is used by Internet Explorer version 8+
+  # The header instructs IE to enable its inbuilt anti-cross-site scripting filter.
+  add_header X-XSS-Protection "1; mode=block";
+
+  # with Content Security Policy (CSP) enabled (and a browser that supports it (http://caniuse.com/#feat=contentsecuritypolicy),
+  # you can tell the browser that it can only download content from the domains you explicitly allow
+  # CSP can be quite difficult to configure, and cause real issues if you get it wrong
+  # There is website that helps you generate a policy here http://cspisawesome.com/
+  # add_header Content-Security-Policy "default-src 'self'; script-src 'self' https://www.google-analytics.com; object-src 'self'; style-src 'self' http://fonts.googleapis.com; img-src 'self' data:; media-src 'self' http://youtube.com http://www.youtube.com; frame-src 'self';"
+
+  # Prevent mobile network providers from modifying your site
+  add_header "Cache-Control" "no-transform";
+}
