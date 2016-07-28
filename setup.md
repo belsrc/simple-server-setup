@@ -271,10 +271,59 @@ Other useful commands
 
 [Soon™]
 
-## Automatic Security Updates
+## maldet
 --------------------------------------------------------------
 
 [Soon™]
+
+## Automatic Security Updates
+--------------------------------------------------------------
+
+##### Install (If you dont already have it)
+``` bash
+apt-get install -y unattended-upgrades
+```
+
+##### Open and edit config file
+``` bash
+nano /etc/apt/apt.conf.d/50unattended-upgrades
+```
+
+``` bash
+# Make sure just security is active
+Unattended-Upgrade::Allowed-Origins {
+        "${distro_id}:${distro_codename}-security";
+//      "${distro_id}:${distro_codename}-updates";
+//      "${distro_id}:${distro_codename}-proposed";
+//      "${distro_id}:${distro_codename}-backports";
+};
+```
+
+Some updates require a reboot, alter the following line if you want to allow auto-reboot
+``` bash
+Unattended-Upgrade::Automatic-Reboot "true";
+```
+
+If you do allow auto-reboot you can specify the reboot time
+``` bash
+Unattended-Upgrade::Automatic-Reboot-Time "02:00";
+```
+
+##### Open and edit the periodic config
+``` bash
+# The file name may be something different, format [##]periodic
+nano /etc/apt/apt.conf.d/10periodic
+```
+
+```
+# Make sure these are present. Will check for upgrades once per day.
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::AutocleanInterval "7";
+APT::Periodic::Unattended-Upgrade "1";
+```
+
+Upgrade logs can be found in `/var/log/unattended-upgrades/`.
 
 ## Accurate UTC Time
 --------------------------------------------------------------
