@@ -1,3 +1,4 @@
+  - [sudo](#sudo)
   - [SSH](#ssh)
   - [Firewall](#firewall)
   - [Fail2Ban](#fail2ban)
@@ -10,6 +11,10 @@
   - [Node](#node)
   - [MongoDB](#mongodb)
   - [Redis](#redis)
+  _ [Additional](#additional)
+
+## sudo
+Most the commands below should be ran with `sudo` or as `root`. I've omitted them for simplify the examples.
 
 ## SSH
 
@@ -284,7 +289,102 @@ Other useful commands
 
 ## Tripwire
 
-[Soon™]
+##### Install the packages
+``` bash
+apt-get install tripwire
+```
+
+During the installation it will ask you if you want to use a passphrase and if it can rebuild a few files. Answer `yes` to all. It will then ask you for a site passphrase, this phrase is used to encrypt the configuration files that it uses so they can not be tampered with. Following that it will ask for a local passphrase, this is used to run the binaries.
+
+##### Initialize database
+``` bash
+# Will prompt for SITE passphrase
+twadmin --create-polfile /etc/tripwire/twpol.txt
+
+# Will prompt for LOCAL passphrase
+# It will complain about a lot of things since the policy is generic.
+tripwire --init
+```
+
+##### Get initial results
+``` bash
+# This runs the scan and only prints out the found files.
+tripwire --check | grep Filename
+```
+Copy these files somewhere so we can use them in the config
+
+##### Open policy file
+``` bash
+nano /etc/tripwire/twpol.txt
+```
+
+In the boot section you can comment out `/etc/rc.boot` if you are on Ubuntu. Now using the previous list, find the items in the policy file and comment the out. Most will be in the `/root/` section. The rest will likely be `/proc/*` which change all the time.
+
+##### Configure /proc checks
+In the `Devices & Kernel information` section comment out `/proc -> $(Device) ;` this directive says to scan all of `/proc`. Now add the `/proc` locations we do want.
+```
+{
+    /dev                    -> $(Device) ;
+    #/proc                  -> $(Device) ;
+    /proc/devices           -> $(Device) ;
+    /proc/net               -> $(Device) ;
+    /proc/tty               -> $(Device) ;
+    /proc/sys               -> $(Device) ;
+    /proc/cpuinfo           -> $(Device) ;
+    /proc/modules           -> $(Device) ;
+    /proc/mounts            -> $(Device) ;
+    /proc/dma               -> $(Device) ;
+    /proc/filesystems       -> $(Device) ;
+    /proc/interrupts        -> $(Device) ;
+    /proc/ioports           -> $(Device) ;
+    /proc/scsi              -> $(Device) ;
+    /proc/kcore             -> $(Device) ;
+    /proc/self              -> $(Device) ;
+    /proc/kmsg              -> $(Device) ;
+    /proc/stat              -> $(Device) ;
+    /proc/loadavg           -> $(Device) ;
+    /proc/uptime            -> $(Device) ;
+    /proc/locks             -> $(Device) ;
+    /proc/meminfo           -> $(Device) ;
+    /proc/misc              -> $(Device) ;
+}
+```
+Also add `/dev/pts` to this section.
+```
+/dev/pts                -> $(Device) ;
+```
+
+##### System service changes
+In the `System boot changes` section comment out `/var/lock -> $(SEC_CONFIG) ;` and `/var/run -> $(SEC_CONFIG) ;` so that we don't false positives from normal services changing files.
+
+##### Recreate policy
+``` bash
+# Will prompt for SITE passphrase
+twadmin -m P /etc/tripwire/twpol.txt
+```
+
+##### Reinitialize database
+``` bash
+# Will prompt for LOCAL passphrase
+tripwire --init
+```
+You should not get any warnings at this point.
+
+##### Run a check
+``` bash
+tripwire --check
+```
+This will allow you to double check that all configuration is correct.
+
+##### Clean up
+We should remove the plaintext policy file.
+``` bash
+rm /etc/tripwire/twpol.txt
+```
+
+Other useful commands
+  * `twadmin --print-polfile > /etc/tripwire/twpol.txt` - To generate an editable plain text policy file.
+  * `tripwire --check --interactive` - This runs the check and generates an extremely in-depth text file of the results and opens it with your default text editor. Near the top it will show a list of checkboxes that relate to the files that have changed. You can remove the 'X' [Deny] to keep checking these files. Leaving the 'X' will [Accept] update the file in the database (wont flag on next run). This is the command that you will use when when your notified of a change.
 
 
 
@@ -389,7 +489,7 @@ Copy these warnings somewhere so we can use them in the config
 nano /etc/rkhunter.conf
 ```
 
-If your sever is is new, chances are you can whitelist the few results that were found previous. You can scroll down to the `SCRIPTWHITELIST` section and add the ones you found.
+If your sever is is new, chances are you can whitelist the few results that were found previously. You can scroll down to the `SCRIPTWHITELIST` section and add the ones you found.
 ```
 SCRIPTWHITELIST="/usr/sbin/adduser"
 SCRIPTWHITELIST="/usr/bin/ldd"
@@ -593,3 +693,9 @@ apt-get install nodejs
 --------------------------------------------------------------
 
 [Soon™]
+
+
+## Additional
+If you set the various configurations up to mail you results you'll need to install the following mail packages.
+  * `apt-get install sendmail`
+  * `apt-get install mailutils`

@@ -3,8 +3,11 @@ MAILTO="[EMAIL_ADDRESS]"
 HOME=/
 SHELL=/bin/bash
 
-# Maldet - Run @ 5:00 a.m.
-0 5 * * * /root/crons/maldet.sh
+# Maldet - Run @ 4:15 a.m.
+15 4 * * * /root/crons/maldet.sh
 
-# RKHunter - Run @ 5:30 a.m.
-30 5 * * * /root/crons/rkhunter.sh
+# RKHunter - Run @ 4:30 a.m.
+30 4 * * * /root/crons/rkhunter.sh
+
+# Tripwire - Run @ 4:45 a.m.
+45 4 * * * /root/crons/tripwire.sh
