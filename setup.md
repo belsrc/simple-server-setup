@@ -2,7 +2,8 @@
   - [Firewall](#firewall)
   - [Fail2Ban](#fail2ban)
   - [Tripwire](#tripwire)
-  - [maldet](#maldet)
+  - [Maldet](#maldet)
+  - [RKHunter](#rkhunter)
   - [Automatic Security Updates](#automatic-security-updates)
   - [Accurate UTC Time](#accurate-utc-time)
   - [Nginx](#nginx)
@@ -11,7 +12,6 @@
   - [Redis](#redis)
 
 ## SSH
---------------------------------------------------------------
 
 ##### Add new user. [Enter strong pw and answer prompts]
 ``` bash
@@ -80,7 +80,6 @@ service ssh restart
 ```
 
 ## Firewall
---------------------------------------------------------------
 
 ##### Check for UFW service
 ``` bash
@@ -127,8 +126,9 @@ Other useful commands
   * `ufw status numbered` to get a numbered list and then `ufw delete [number]` to delete a rule. `ufw delete [rule]` i.e `ufw delete allow ssh` can also be used
   * `ufw reset` to reset all rules
 
+
+
 ## Fail2Ban
---------------------------------------------------------------
 
 ##### Install
 ``` bash
@@ -226,6 +226,8 @@ logpath  = /var/log/nginx/access.log
 maxretry = 2
 ```
 
+
+
 ##### Fail Regexes
 ``` bash
 nano /etc/fail2ban/filter.d/nginx-http-auth.conf
@@ -278,12 +280,15 @@ Other useful commands
   * `fail2ban-client set nginx-http-auth unbanip [ip_address]`
   * `iptables -S` to see the iptable rules created
 
+
+
 ## Tripwire
---------------------------------------------------------------
 
 [Soon™]
 
-## maldet
+
+
+## Maldet
 --------------------------------------------------------------
 
 ##### Move to src directory
@@ -294,7 +299,7 @@ cd /usr/local/src/
 ##### Download and extract tar file
 ``` bash
 wget http://www.rfxn.com/downloads/maldetect-current.tar.gz
-tar -xzf maldetect-current.tar.gz
+tar -xzf maldetect-*
 ```
 
 ##### Move to extracted folder
@@ -337,8 +342,83 @@ Other useful commands:
 
 Maldet installs a daily cron job, located @ `/etc/cron.daily/maldet`, that performs app and signature updates, prunes old data and runs a daily scan of recently changed files.
 
+
+
+## RKHunter
+
+##### Move to src directory
+``` bash
+cd /usr/local/src/
+```
+
+##### Download and extract tar file
+``` bash
+wget http://downloads.sourceforge.net/project/rkhunter/rkhunter/1.4.2/rkhunter-1.4.2.tar.gz
+tar -xzf rkhunter-*
+```
+
+##### Move to extracted folder
+``` bash
+cd rkhunter-*
+```
+
+##### Run installer
+``` bash
+sh ./installer.sh --layout /usr --install
+```
+
+##### Update definitions
+``` bash
+rkhunter --update
+```
+
+##### Get baseline files
+``` bash
+sudo rkhunter --propupd
+```
+
+##### Perform initial run (This will produce results, this is expected)
+``` bash
+# This runs the scan and only prints out the warnings
+rkhunter -c --enable all --disable none --rwo
+```
+Copy these warnings somewhere so we can use them in the config
+
+##### Open config file
+``` bash
+nano /etc/rkhunter.conf
+```
+
+If your sever is is new, chances are you can whitelist the few results that were found previous. You can scroll down to the `SCRIPTWHITELIST` section and add the ones you found.
+```
+SCRIPTWHITELIST="/usr/sbin/adduser"
+SCRIPTWHITELIST="/usr/bin/ldd"
+```
+You may also get some warnings pertaining to hidden files and directories, usually in /dev. You can handle these using the following directives:
+  * `ALLOWDEVFILE`
+  * `ALLOWHIDDENDIR`
+  * `ALLOWHIDDENFILE`
+
+You may also want to configure the following:
+  * `MAIL-ON-WARNING` - Whether or not to mail when something is found.
+  * `MAIL_CMD` - The command to use when mailing. Default is `mail`.
+
+##### Check the config syntax
+``` bash
+rkhunter -C
+```
+
+##### Update the file properties and run the scan add-error-page-handling
+``` bash
+rkhunter --propupd
+rkhunter -c --enable all --disable none --rwo
+```
+
+If everything was white listed you should get a clean scan. Remember, when you make software changes to run `rkhunter --propupd` to update the file properties list.
+
+
+
 ## Automatic Security Updates
---------------------------------------------------------------
 
 ##### Install (If you dont already have it)
 ``` bash
@@ -386,6 +466,8 @@ APT::Periodic::Unattended-Upgrade "1";
 
 Upgrade logs can be found in `/var/log/unattended-upgrades/`.
 
+
+
 ## Accurate UTC Time
 --------------------------------------------------------------
 
@@ -406,6 +488,8 @@ dpkg-reconfigure tzdata
 ``` bash
 apt-get install ntp
 ```
+
+
 
 ## Nginx
 --------------------------------------------------------------
@@ -481,6 +565,8 @@ service nginx reload
 
 A more thorough config can be found in the _nginx-configs_ directory.
 
+
+
 ## Node
 --------------------------------------------------------------
 
@@ -494,10 +580,14 @@ curl -sL https://deb.nodesource.com/setup_4.x | sudo bash -
 apt-get install nodejs
 ```
 
+
+
 ## MongoDB
 --------------------------------------------------------------
 
 [Soon™]
+
+
 
 ## Redis
 --------------------------------------------------------------
