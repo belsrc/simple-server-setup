@@ -1,4 +1,16 @@
-## SSH Log In Config
+  - [SSH](#ssh)
+  - [Firewall](#firewall)
+  - [Fail2Ban](#fail2ban)
+  - [Tripwire](#tripwire)
+  - [maldet](#maldet)
+  - [Automatic Security Updates](#automatic-security-updates)
+  - [Accurate UTC Time](#accurate-utc-time)
+  - [Nginx](#nginx)
+  - [Node](#node)
+  - [MongoDB](#mongodb)
+  - [Redis](#redis)
+
+## SSH
 --------------------------------------------------------------
 
 ##### Add new user. [Enter strong pw and answer prompts]
@@ -274,7 +286,56 @@ Other useful commands
 ## maldet
 --------------------------------------------------------------
 
-[Soon™]
+##### Move to src directory
+``` bash
+cd /usr/local/src/
+```
+
+##### Download and extract tar file
+``` bash
+wget http://www.rfxn.com/downloads/maldetect-current.tar.gz
+tar -xzf maldetect-current.tar.gz
+```
+
+##### Move to extracted folder
+``` bash
+cd maldetect-*
+```
+
+##### Run installer
+``` bash
+sh ./install.sh
+```
+
+##### Configuration
+``` bash
+nano /usr/local/maldetect/conf.maldet
+```
+
+All options are well commented so there's not much point to go over them in-depth. Important options:
+	* `autoupdate_signatures` - Enables/disables daily definition updates.
+	* `autoupdate_version` - Enables/disables daily maldet application updates.
+	* `email_alert` - This will enable/disable email alerts.
+	* `email_addr` - The email address to send alerts.
+	* `quarantine_hits` - What to do when malware is found. Either email only or email and quarantine. The later ("1") is preferred.
+	* `quarantine_clean` - Whether to atempt to clean malware. Requires `quarantine_hits` to be "1". Preferred setting is "1", clean.
+	* `quarantine_suspend_user` - Whether to suspend user account that has hits.
+	* `quarantine_suspend_user_minuid` - The minimum userid value that can be suspended.
+
+##### Update signatures
+``` bash
+maldet -u
+```
+
+Other useful commands:
+	* `maldet --scan-all [PATH]` - Scan the files in the provided path.
+	* `maldet --scan-recent [PATH] [DAYS]` - Scan only the files that have changed in the provided path in the last X days.
+	* `maldet --quarantine [SCANID]` - Quarantines found malware from previous scan.
+	* `maldet --clean [SCANID]` - Attempt to clean found malware from previous scan.
+	* `maldet --restore [FILE]` - Restore a quarantined file.
+	* `maldet -l` - To view the recent logs.
+
+Maldet installs a daily cron job, located @ `/etc/cron.daily/maldet`, that performs app and signature updates, prunes old data and runs a daily scan of recently changed files.
 
 ## Automatic Security Updates
 --------------------------------------------------------------
