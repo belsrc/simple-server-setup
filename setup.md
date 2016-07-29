@@ -11,7 +11,7 @@
   - [Node](#node)
   - [MongoDB](#mongodb)
   - [Redis](#redis)
-  _ [Additional](#additional)
+  - [Additional](#additional)
 
 ## sudo
 Most the commands below should be ran with `sudo` or as `root`. I've omitted them for simplify the examples.
