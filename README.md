@@ -1,6 +1,6 @@
 # Simple server setup
 
-To keep from having to bounce between a large number of sites to get the information, I consolidated it. This is mainly for myself but if someone else will find it useful, all the better. If you happen to notice something that is missing or configured wrong please let me know, I can always use more knowledge.
+To keep from having to bounce between a large number of sites to get the information, I consolidated it. This is mainly for myself but if someone else will find it useful, all the better. If you happen to notice something that is missing or configured wrong please let me know, you never stop learning.
 
 
 ### License

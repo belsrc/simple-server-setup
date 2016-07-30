@@ -29,8 +29,8 @@ server {
 # Normal Node App
 server {
     # The ports to listen on
-    listen 80 default_server;
-    listen [::]:80 default_server ipv6only=on;
+    listen 80;
+    listen [::]:80 ipv6only=on;
 
     # Charset
     charset utf-8;
