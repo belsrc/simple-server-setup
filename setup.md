@@ -383,6 +383,9 @@ rm /etc/tripwire/twpol.txt
 ```
 
 Other useful commands
+  * `twadmin --generate-keys --site-keyfile /etc/tripwire/site.key` - Generate a new SITE passphrase.
+  * `twadmin --generate-keys --local-keyfile /etc/tripwire/$HOSTNAME-local.key` - Generate a new LOCAL passphrase.
+  * `tripwire --init --cfgfile /etc/tripwire/tw.cfg --polfile /etc/tripwire/tw.pol --site-keyfile /etc/tripwire/site.key --local-keyfile /etc/tripwire/$HOSTNAME-local.key` - Generate a new database file.
   * `twadmin --print-polfile > /etc/tripwire/twpol.txt` - To generate an editable plain text policy file.
   * `tripwire --check --interactive` - This runs the check and generates an extremely in-depth text file of the results and opens it with your default text editor. Near the top it will show a list of checkboxes that relate to the files that have changed. You can remove the 'X' [Deny] to keep checking these files. Leaving the 'X' will [Accept] update the file in the database (wont flag on next run). This is the command that you will use when when your notified of a change.
 
