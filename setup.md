@@ -9,12 +9,10 @@
   - [Accurate UTC Time](#accurate-utc-time)
   - [Nginx](#nginx)
   - [Node](#node)
-  - [MongoDB](#mongodb)
-  - [Redis](#redis)
   - [Additional](#additional)
 
 ## sudo
-Most the commands below should be ran with `sudo` or as `root`. I've omitted them for simplify the examples.
+Most the commands below should be ran with `sudo` or as `root`. I've omitted them to simplify the examples.
 
 ## SSH
 
@@ -83,6 +81,8 @@ You can also allow groups by adding `AllowGroups [groupname]`
 ``` bash
 service ssh restart
 ```
+
+
 
 ## Firewall
 
@@ -230,8 +230,6 @@ filter   = nginx-noproxy
 logpath  = /var/log/nginx/access.log
 maxretry = 2
 ```
-
-
 
 ##### Fail Regexes
 ``` bash
@@ -683,19 +681,6 @@ curl -sL https://deb.nodesource.com/setup_4.x | sudo bash -
 apt-get install nodejs
 ```
 
-
-
-## MongoDB
---------------------------------------------------------------
-
-[Soon™]
-
-
-
-## Redis
---------------------------------------------------------------
-
-[Soon™]
 
 
 ## Additional
