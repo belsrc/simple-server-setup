@@ -490,7 +490,7 @@ Copy these warnings somewhere so we can use them in the config
 nano /etc/rkhunter.conf
 ```
 
-If your sever is is new, chances are you can whitelist the few results that were found previously. You can scroll down to the `SCRIPTWHITELIST` section and add the ones you found.
+If your sever is new, chances are you can whitelist the few results that were found previously. You can scroll down to the `SCRIPTWHITELIST` section and add the ones you found.
 ```
 SCRIPTWHITELIST="/usr/sbin/adduser"
 SCRIPTWHITELIST="/usr/bin/ldd"
