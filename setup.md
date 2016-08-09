@@ -475,7 +475,7 @@ rkhunter --update
 
 ##### Get baseline files
 ``` bash
-sudo rkhunter --propupd
+rkhunter --propupd
 ```
 
 ##### Perform initial run (This will produce results, this is expected)
