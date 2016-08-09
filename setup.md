@@ -679,7 +679,7 @@ A more thorough config can be found in the _nginx-configs_ directory.
 
 ##### Add Node 4.x LTS PPA
 ``` bash
-curl -sL https://deb.nodesource.com/setup_4.x | sudo bash -
+curl -sL https://deb.nodesource.com/setup_4.x | bash -
 ```
 
 ##### Install node
@@ -687,6 +687,8 @@ curl -sL https://deb.nodesource.com/setup_4.x | sudo bash -
 apt-get install nodejs
 ```
 
+##### Version
+As of writing this, Node is on v6.x. The only current LTS version is v4.x, hence the above install of v4.x. You can check the [LTS Schedule](https://github.com/nodejs/LTS#lts_schedule) to determine if you want/need to change the installed version.
 
 
 ## Additional
