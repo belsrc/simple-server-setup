@@ -551,6 +551,12 @@ If you do allow auto-reboot you can specify the reboot time
 Unattended-Upgrade::Automatic-Reboot-Time "02:00";
 ```
 
+##### Set update email if mail server available
+
+``` bash
+Unattended-Upgrade::Mail "[EMAIL_ADDRESS]";
+```
+
 ##### Open and edit the periodic config
 ``` bash
 # The file name may be something different, format [##]periodic
