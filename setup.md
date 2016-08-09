@@ -18,17 +18,17 @@ Most the commands below should be ran with `sudo` or as `root`. I've omitted the
 
 ##### Add new user. [Enter strong pw and answer prompts]
 ``` bash
-adduser [username]
+adduser [USER_NAME]
 ```
 
 ##### Add user to sudo group [Run as root]
 ``` bash
-gpasswd -a [username] sudo
+gpasswd -a [USER_NAME] sudo
 ```
 
 ##### Switch to the new user
 ``` bash
-su - [username]
+su - [USER_NAME]
 ```
 
 ##### Make the .ssh dir
@@ -73,9 +73,9 @@ nano /etc/ssh/sshd_config
   * UsePAM no
 
 ##### Explicitly allow users [Add the following]
-  * AllowUsers [username]
+  * AllowUsers [USER_NAME]
 
-You can also allow groups by adding `AllowGroups [groupname]`
+You can also allow groups by adding `AllowGroups [GROUP_NAME]`
 
 ##### Save file and restart SSH
 ``` bash
@@ -95,7 +95,7 @@ service --status-all | grep "ufw"
 ``` bash
 ufw allow ssh
 ```
-Same as `ufw allow 22/tcp`. If changed ssh port use `ufw allow [ssh port]/tcp`
+Same as `ufw allow 22/tcp`. If changed ssh port use `ufw allow [SSH_PORT]/tcp`
 
 ##### Add HTTP web traffic
 ```bash
@@ -110,7 +110,7 @@ ufw allow 443/tcp
 ``` bash
 ufw limit 22/tcp
 ```
-If changed ssh port use `ufw limit [ssh port]/tcp`
+If changed ssh port use `ufw limit [SSH_PORT]/tcp`
 
 ##### Deny everything that hasn't been whitelisted
 ``` bash
@@ -128,7 +128,7 @@ Other useful commands
   * `ufw status` can be used to check active rules
   * `ufw disable` to turn off firewall
   * `nano /etc/default/ufw` and change `IPV6=yes` if you need IP v6 support
-  * `ufw status numbered` to get a numbered list and then `ufw delete [number]` to delete a rule. `ufw delete [rule]` i.e `ufw delete allow ssh` can also be used
+  * `ufw status numbered` to get a numbered list and then `ufw delete [NUMBER]` to delete a rule. `ufw delete [RULE]` i.e `ufw delete allow ssh` can also be used
   * `ufw reset` to reset all rules
 
 
@@ -152,7 +152,7 @@ nano /etc/fail2ban/jail.local
 
 ##### Add personal IPs to whitelisted [space seperated]
 ``` bash
-ignoreip = 127.0.0.1/8 [ip_address]
+ignoreip = 127.0.0.1/8 [IP_ADDRESS]
 ```
 
 ##### Change ban time if desired
@@ -176,7 +176,7 @@ A host is banned if it has generated `maxretry` during the last `findtime` secon
 
 ##### Set warn email if mail server available
 ``` bash
-destemail = [email_address]
+destemail = [EMAIL_ADDRESS]
 ```
 If you need/want emails you may need to install sendmail `apt-get install sendmail`.
 
@@ -279,8 +279,8 @@ service fail2ban restart
 
 Other useful commands
   * `fail2ban-client status` to get a list of enabled jails
-  * `fail2ban-client status [jail_name]` to get more specific information
-  * `fail2ban-client set nginx-http-auth unbanip [ip_address]`
+  * `fail2ban-client status [JAIL_NAME]` to get more specific information
+  * `fail2ban-client set nginx-http-auth unbanip [IP_ADDRESS]`
   * `iptables -S` to see the iptable rules created
 
 
@@ -636,7 +636,7 @@ error_page 401 403 404 /404.html;
 server {
     listen 80;
 
-    server_name [server_host_name];
+    server_name [SERVER_HOST_NAME];
 
     location / {
       proxy_redirect off;
