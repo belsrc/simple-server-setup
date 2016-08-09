@@ -61,19 +61,19 @@ nano /etc/ssh/sshd_config
 ```
 
 ##### Add/change the follow
-  * RSAAuthentication yes
-  * PubkeyAuthentication yes
+  * `RSAAuthentication yes`
+  * `PubkeyAuthentication yes`
 
 ##### Disable root login [Add/change the following]
-  * PermitRootLogin no
+  * `PermitRootLogin no`
 
 ##### Disable password login [Add/change the following]
-  * ChallengeResponseAuthentication no
-  * PasswordAuthentication no
-  * UsePAM no
+  * `ChallengeResponseAuthentication no`
+  * `PasswordAuthentication no`
+  * `UsePAM no`
 
 ##### Explicitly allow users [Add the following]
-  * AllowUsers [USER_NAME]
+  * ```AllowUsers [USER_NAME]```
 
 You can also allow groups by adding `AllowGroups [GROUP_NAME]`
 
@@ -353,7 +353,7 @@ Also add `/dev/pts` to this section.
 ```
 
 ##### System service changes
-In the `System boot changes` section comment out `/var/lock -> $(SEC_CONFIG) ;` and `/var/run -> $(SEC_CONFIG) ;` so that we don't false positives from normal services changing files.
+In the `System boot changes` section comment out `/var/lock -> $(SEC_CONFIG) ;` and `/var/run -> $(SEC_CONFIG) ;` so that we don't get false positives from normal services changing files.
 
 ##### Recreate policy
 ``` bash
@@ -418,7 +418,7 @@ sh ./install.sh
 nano /usr/local/maldetect/conf.maldet
 ```
 
-All options are well commented so there's not much point to go over them in-depth. Important options:
+All options are well commented so there's not much point to go over them all in detail, the important options are:
   * `autoupdate_signatures` - Enables/disables daily definition updates.
   * `autoupdate_version` - Enables/disables daily maldet application updates.
   * `email_alert` - This will enable/disable email alerts.
