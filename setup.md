@@ -7,6 +7,7 @@
   - [RKHunter](#rkhunter)
   - [Automatic Security Updates](#automatic-security-updates)
   - [Accurate UTC Time](#accurate-utc-time)
+  - [Server Monitor](#server-monitor)
   - [Nginx](#nginx)
   - [Node](#node)
   - [Additional](#additional)
@@ -595,6 +596,52 @@ dpkg-reconfigure tzdata
 ``` bash
 apt-get install ntp
 ```
+
+
+
+## Server Monitor
+--------------------------------------------------------------
+
+##### Create New Relic account
+```
+https://newrelic.com/signup
+```
+
+##### Add New Relic repository and signing key
+``` bash
+echo deb http://apt.newrelic.com/debian/ newrelic non-free | tee /etc/apt/sources.list.d/newrelic.list
+```
+
+##### Trust key
+``` bash
+wget -O- https://download.newrelic.com/548C16BF.gpg | apt-key add -
+```
+
+##### Install New Relic
+``` bash
+apt-get install newrelic-sysmond
+```
+
+##### Set license key
+``` bash
+nrsysmond-config --set license_key=[YOUR_KEY]
+```
+
+Your license key can be found 
+
+##### Set host name (optional)
+``` bash
+nano /etc/newrelic/nrsysmond.cfg
+```
+
+Scroll down and find `hostname=` and change it to the name you want to show in the New Relic admin panel.
+
+##### Start service
+``` bash
+service newrelic-sysmond start
+```
+
+##### Setup email alerts
 
 
 

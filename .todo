@@ -4,7 +4,9 @@ Additions:
   ☐ Redis section
   ☐ PM2 section ?
   ☐ SSH Keep Alive settings
-  ☐ references.md
+  ✔ references.md @done(2016-08-09 11:30) @project(Additions)
   ☐ FTP access
   ☐ SSL nginx
-  ☐ Steps for making from snapshot
+  ☐ Steps for making from snapshot (trupwire, new relic)
+  ☐ Split Node, PM2 and related Nginx info off into node-app.md (name?)
+  ☐ In the same vein, make a php-add.md

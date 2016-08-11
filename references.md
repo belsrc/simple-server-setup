@@ -45,6 +45,11 @@
   1. [Additional Recommended Steps for New Ubuntu 14.04 Servers](https://www.digitalocean.com/community/tutorials/additional-recommended-steps-for-new-ubuntu-14-04-servers)
 
 
+## Server Monitor
+  1. [Get started with New Relic Servers](https://rpm.newrelic.com/accounts/457995/servers/get_started)
+  2. [Using New Relic's Free Server Monitoring](https://serversforhackers.com/using-new-relics-free-server-monitoring)
+
+
 #### Nginx
   1. [nginx-Install](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/#)
   2. [Understanding the Nginx Configuration File Structure and Configuration Contexts](https://www.digitalocean.com/community/tutorials/understanding-the-nginx-configuration-file-structure-and-configuration-contexts)
