@@ -3,7 +3,7 @@ MAILTO="[EMAIL_ADDRESS]"
 HOME=/
 SHELL=/bin/bash
 
-# Clean up old logs
+# Clean up old logs - Run @ 12:00 a.m.
 0 0 * * * /root/crons/log-prune.sh
 
 # Maldet - Run @ 4:15 a.m.
