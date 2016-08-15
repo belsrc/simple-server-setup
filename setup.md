@@ -627,7 +627,7 @@ apt-get install newrelic-sysmond
 nrsysmond-config --set license_key=[YOUR_KEY]
 ```
 
-Your license key can be found 
+Your license key can be found
 
 ##### Set host name (optional)
 ``` bash
@@ -738,7 +738,12 @@ apt-get install nodejs
 As of writing this, Node is on v6.x. The only current LTS version is v4.x, hence the above install of v4.x. You can check the [LTS Schedule](https://github.com/nodejs/LTS#lts_schedule) to determine if you want/need to change the installed version.
 
 
-## Additional
+## Additional Utils
 If you set the various configurations up to mail you results you'll need to install the following mail packages.
   * `apt-get install sendmail`
   * `apt-get install mailutils`
+
+
+## Useful management commands
+  * `getent passwd` - List all users (from `/etc/passwd`). This includes both actual users and system 'users'.
+  * `cut -d: -f1 /etc/passwd` - Same as above but gives alittle more information for each user.
