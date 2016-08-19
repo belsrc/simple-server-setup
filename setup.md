@@ -746,4 +746,7 @@ If you set the various configurations up to mail you results you'll need to inst
 
 ## Useful management commands
   * `getent passwd` - List all users (from `/etc/passwd`). This includes both actual users and system 'users'.
-  * `cut -d: -f1 /etc/passwd` - Same as above but gives alittle more information for each user.
+  * `cut -d: -f1 /etc/passwd` - Same as above but gives a little more information for each user.
+  * `ps aux | less` - List running processes.
+  * `top` - Realtime running processes.
+  * `pstree` - List running processes in a tree.

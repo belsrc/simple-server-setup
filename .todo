@@ -7,6 +7,7 @@ Additions:
   ✔ references.md @done(2016-08-09 11:30) @project(Additions)
   ☐ FTP access
   ☐ SSL nginx
-  ☐ Steps for making from snapshot (trupwire, new relic)
+  ☐ Steps for making from snapshot (FQDN hostname (which means updating ->), tripwire, host, new relic)
+    http://askubuntu.com/questions/436260/sm-msp-queue-says-unable-to-qualify-my-own-domain-name-xxx-using-short-nam
   ☐ Split Node, PM2 and related Nginx info off into node-app.md (name?)
   ☐ In the same vein, make a php-add.md
