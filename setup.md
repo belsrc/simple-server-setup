@@ -25,6 +25,8 @@ Most the commands below should be ran with `sudo` or as `root`. I've omitted the
 hostname [DOMAIN].[TLD]
 ```
 
+You can verify the hostname user `hostname -f`.
+
 ##### Add new host name to host file
 ``` bash
 nano /etc/hosts
@@ -668,7 +670,7 @@ apt-get install newrelic-sysmond
 
 ##### Set license key
 ``` bash
-nrsysmond-config --set license_key=[YOUR_KEY]
+nrsysmond-config --set license_key=[LICENSE_KEY]
 ```
 
 Your license key can be found

@@ -10,6 +10,7 @@ IPS=$(grep -Pv "^#|^$" $BLOCKDB)
 # Loop through each and add iptable rule
 for i in $IPS
 do
+echo "Adding $i"
 iptables -A INPUT -s $i -j DROP
 iptables -A OUTPUT -d $i -j DROP
 done
