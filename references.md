@@ -11,6 +11,12 @@
   - [Additional](#additional)
 
 
+#### Host
+  1. [HOSTNAME Man Page](http://man7.org/linux/man-pages/man1/hostname.1.html)
+  2. [HOSTS Man Page](http://man7.org/linux/man-pages/man5/hosts.5.html)
+  3. [The /etc/mail/local-host-names file](http://www.tldp.org/LDP/solrhe/Securing-Optimizing-Linux-RH-Edition-v1.3/chap22sec180.html)
+
+
 #### SSH
   1. [Initial Server Setup with Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-14-04)
   2. [Configuring SSHD on the Server](https://serversforhackers.com/video/configuring-sshd-on-the-server)
@@ -23,6 +29,8 @@
 #### Fail2Ban
   1. [How To Protect an Nginx Server with Fail2Ban on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-protect-an-nginx-server-with-fail2ban-on-ubuntu-14-04)
   2. [Using Fail2ban to Secure Your Server](https://www.linode.com/docs/security/using-fail2ban-for-security)
+  3. [IPTABLES Man Page](http://ipset.netfilter.org/iptables.man.html)
+  4. [Linux Iptables block incoming access to selected or specific ip address](http://www.cyberciti.biz/tips/howto-block-ipaddress-with-iptables-firewall.html)
 
 
 #### Tripwire

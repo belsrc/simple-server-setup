@@ -1,4 +1,5 @@
   - [sudo](#sudo)
+  - [host](#host)
   - [SSH](#ssh)
   - [Firewall](#firewall)
   - [Fail2Ban](#fail2ban)
@@ -13,7 +14,40 @@
   - [Additional](#additional)
 
 ## sudo
+
 Most the commands below should be ran with `sudo` or as `root`. I've omitted them to simplify the examples.
+
+## host
+
+##### Change host name to domain
+
+``` bash
+hostname [DOMAIN].[TLD]
+```
+
+##### Add new host name to host file
+``` bash
+nano /etc/hosts
+```
+
+Change the entries so that they look something like
+``` bash
+127.0.0.1 localhost
+127.0.0.1 [DOMAIN].[TLD] [DOMAIN].[TLD]
+```
+
+##### Add host name to mail local hosts
+``` bash
+nano /etc/mail/local-host-names
+```
+
+Change the entries so that they look something like
+``` bash
+localhost
+[DOMAIN].[TLD]
+```
+
+
 
 ## SSH
 
@@ -76,7 +110,7 @@ nano /etc/ssh/sshd_config
 ##### Explicitly allow users [Add the following]
   * ```AllowUsers [USER_NAME]```
 
-You can also allow groups by adding `AllowGroups [GROUP_NAME]`
+You can also allow groups by adding `AllowGroups [GROUP_NAME]` or you can allow a user from a specific IP address using `AllowUsers [USER_NAME]@[IP_ADDRESS]`
 
 ##### Save file and restart SSH
 ``` bash
@@ -278,10 +312,20 @@ ignoreregex =
 service fail2ban restart
 ```
 
+##### Additional
+If you set up the host and the fail2ban config to email on bans, the following commands can be used to completely block an offender.
+  * `iptables -A INPUT -s [OFFENDING_IP] -j DROP`
+  * `iptables -A OUTPUT -d [OFFENDING_IP] -j DROP`
+
+The `-A` appends this rule to the given table [INPUT,OUTPUT], the `-s` means `source` and the `-d` means `destination`. `-j` means `jump`, which is basically saying 'do the following', in this case, `DROP` the packet. So these rules say 'drop all incoming packets __from__ this IP' and 'drop all outgoing packets __to__ this IP'.
+
+There's also a script in the `/scripts/block` directory in case you need to block a large list of IPs and don't want to type each one out by hand.
+
+
 Other useful commands
   * `fail2ban-client status` to get a list of enabled jails
   * `fail2ban-client status [JAIL_NAME]` to get more specific information
-  * `fail2ban-client set nginx-http-auth unbanip [IP_ADDRESS]`
+  * `fail2ban-client set nginx-http-auth unbanip [IP_ADDRESS]` to unban an ip address
   * `iptables -S` to see the iptable rules created
 
 
@@ -745,8 +789,8 @@ If you set the various configurations up to mail you results you'll need to inst
 
 
 ## Useful management commands
-  * `getent passwd` - List all users (from `/etc/passwd`). This includes both actual users and system 'users'.
-  * `cut -d: -f1 /etc/passwd` - Same as above but gives a little more information for each user.
+  * `cut -d: -f1 /etc/passwd` - List all users (from `/etc/passwd`). This includes both actual users and system 'users'.
+  * `getent passwd` - Same as above but gives a little more information for each user.
   * `ps aux | less` - List running processes.
   * `top` - Realtime running processes.
   * `pstree` - List running processes in a tree.
