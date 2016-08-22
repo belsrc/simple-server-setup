@@ -53,7 +53,7 @@
   1. [Additional Recommended Steps for New Ubuntu 14.04 Servers](https://www.digitalocean.com/community/tutorials/additional-recommended-steps-for-new-ubuntu-14-04-servers)
 
 
-## Server Monitor
+#### Server Monitor
   1. [Get started with New Relic Servers](https://rpm.newrelic.com/accounts/457995/servers/get_started)
   2. [Using New Relic's Free Server Monitoring](https://serversforhackers.com/using-new-relics-free-server-monitoring)
 
