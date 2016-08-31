@@ -15,6 +15,12 @@ apt-get update && apt-get upgrade
 hostname [DOMAIN].[TLD]
 ```
 
+``` bash
+nano /etc/hostname
+```
+
+Change the value in the file to the same as above.
+
 ##### Change host name in host file
 ``` bash
 nano /etc/hosts

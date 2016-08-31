@@ -27,6 +27,12 @@ hostname [DOMAIN].[TLD]
 
 You can verify the hostname user `hostname -f`.
 
+``` bash
+nano /etc/hostname
+```
+
+Change the value in the file to the same as above.
+
 ##### Add new host name to host file
 ``` bash
 nano /etc/hosts
